@@ -3,7 +3,8 @@
 # quicktime movie file (mp4, m4v, mov, etc). It was written using Apple's 
 # file format definition.
 
-import struct, string
+import struct
+import string
 
 ### GLOBALS ###
 # This was stolen from a java library
@@ -12,11 +13,47 @@ ATOM_CONTAINER_TYPES = ["moov", "trak", "udta", "tref", "imap",
         "rmra", "imag", "vnrp", "dinf"]
 # END GLOBALS #
 
+
+class AtomPaths(object):
+    meta = 'moov.udta.meta'
+    album_artist = 'moov.udta.meta.ilst.aART'
+    image = 'moov.udta.meta.ilst.covr'
+    compilation = 'moov.udta.meta.ilst.cpil'
+    video_description = 'moov.udta.meta.ilst.desc'
+    disk = 'moov.udta.meta.ilst.disk'
+    genre = 'moov.udta.meta.ilst.gnre'
+    gapless = 'moov.udta.meta.ilst.pgap'
+    sort_album_artist = 'moov.udta.meta.ilst.soaa'
+    sort_album = 'moov.udta.meta.ilst.soal'
+    sort_artist = 'moov.udta.meta.ilst.soar'
+    sort_composer = 'moov.udta.meta.ilst.soco'
+    sort_name = 'moov.udta.meta.ilst.sonm'
+    sort_video_show = 'moov.udta.meta.ilst.sosn'
+    bpm = 'moov.udta.meta.ilst.tmpo'
+    track = 'moov.udta.meta.ilst.trkn'
+    video_episode_id = 'moov.udta.meta.ilst.tven'
+    video_episode = 'moov.udta.meta.ilst.tves'
+    video_show = 'moov.udta.meta.ilst.tvsh'
+    video_season = 'moov.udta.meta.ilst.tvsn'
+    audio_artist = 'moov.udta.meta.ilst.\xa9ART'
+    audio_album = 'moov.udta.meta.ilst.\xa9alb'
+    audio_comment = 'moov.udta.meta.ilst.\xa9cmt'
+    audio_year = 'moov.udta.meta.ilst.\xa9day'
+    audio_genre = 'moov.udta.meta.ilst.\xa9gen'
+    audio_grouping = 'moov.udta.meta.ilst.\xa9grp'
+    audio_lyrics = 'moov.udta.meta.ilst.\xa9lyr'
+    audio_name = 'moov.udta.meta.ilst.\xa9nam'
+    audio_encoder = 'moov.udta.meta.ilst.\xa9too'
+    audio_composer = 'moov.udta.meta.ilst.\xa9wrt'
+
 ### HELPER FUNCTIONS ###
 printable = string.ascii_letters + string.digits + string.punctuation + ' '
+
+
 def hex_escape(s):
     return ''.join(c if c in printable else r'\x{0:02x}'.format(ord(c)) for c in s)
 ### END HELPER FUNCTIONS ###
+
 
 ### Atom Tree Class ###
 class AtomTree:
