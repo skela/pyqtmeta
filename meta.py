@@ -20,7 +20,11 @@ class Helper(object):
         # TODO: Figure out what ITunes' "Media Kind" is (TVShow / Movie)
 
     def __init__(self, path_to_ffmpeg=None):
+
         self.path_to_ffmpeg = path_to_ffmpeg if not path_to_ffmpeg is None else "/opt/local/bin/ffmpeg"
+        if not os.path.exists(self.path_to_ffmpeg):
+            self.path_to_ffmpeg = '/usr/local/bin/ffmpeg'
+        
         self.allow_logging = True
         if not os.path.exists(self.path_to_ffmpeg):
             self.log("[Warning] Failed to locate ffmpeg - Please make sure you have ffmpeg installed on this system")
